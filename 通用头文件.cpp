@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include <iostream>
 #include <iomanip>
 #include <cstdio>
@@ -30,6 +30,7 @@ const double eps = 1e-6;
 const double PI = acos(-1.0);
 
 typedef long long ll;
+typedef long long LL;
 typedef long long int64;	// %lld
 
 int main()
