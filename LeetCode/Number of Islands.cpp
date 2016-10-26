@@ -1,4 +1,3 @@
-// 并查集 + BFS
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -6,7 +5,42 @@
 #include <cstring>
 using namespace std;
 
-const int MAX_N = 100;
+typedef struct Point {
+  int i, j;
+} Point;
+
+const int MAXN = 100000;
+int dis[MAXN];
+int parents[MAXN];
+int ranks[MAXN];
+
+void Init(int n) {
+  for (int i = 0; i < n; ++i) {
+    parents[i] = i;
+    ranks[i] = 0;
+  }
+}
+
+int Find(int x) {
+  return parents[x] != x ? parents[x] = Find(parents[x]) : x;
+}
+
+void Unite(int x, int y) {
+  x = Find(x);
+  y = Find(y);
+  if (x == y) return;
+
+  if (ranks[x] < ranks[y]) {
+    parents[x] = y;
+  } else {
+    parents[y] = x;
+    if (ranks[x] == ranks[y]) ++ranks[x];
+  }
+}
+
+bool Same(int x, int y) {
+  return Find(x) == Find(y);
+}
 
 class Solution {
 public:
@@ -18,6 +52,8 @@ public:
     int grid_columns = grid.at(0).size();
     int grid_size = grid_rows * grid_columns;
     int grid_one_nums = 0;
+
+    Point directions[4] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     Init(grid_size);
     memset(dis, -1, sizeof(dis));
@@ -36,9 +72,7 @@ public:
           if (dis[i*grid_columns + j] == -1) {
             if (grid[i][j] == '1') {
               flag = true;
-              Point point;
-              point.i = i;
-              point.j = j;
+              Point point = { .i = i, .j = j };
               q.push(point);
               break;
             }
@@ -53,39 +87,16 @@ public:
         dis[point.i*grid_columns + point.j] = 0;
         num++;
 
-        int i = point.i, j = point.j;
-        // TODO: 下面应该换成方向数组
-        if (i - 1 >= 0 && grid[i-1][j] == '1' && dis[(i-1)*grid_columns + j] == -1) {  // 上
-          Point newPoint;
-          newPoint.i = i - 1;
-          newPoint.j = j;
-          q.push(newPoint);
-          dis[newPoint.i*grid_columns + newPoint.j] = 0;
-          Unite(i*grid_columns + j, newPoint.i*grid_columns + newPoint.j);
-        }
-        if (i + 1 < grid_rows && grid[i+1][j] == '1' && dis[(i+1)*grid_columns + j] == -1) { // 下
-          Point newPoint;
-          newPoint.i = i + 1;
-          newPoint.j = j;
-          q.push(newPoint);
-          dis[newPoint.i*grid_columns + newPoint.j] = 0;
-          Unite(i*grid_columns + j, newPoint.i*grid_columns + newPoint.j);
-        }
-        if (j - 1 >= 0 && grid[i][j-1] == '1' && dis[i*grid_columns + j-1] == -1) {  // 左
-          Point newPoint;
-          newPoint.i = i;
-          newPoint.j = j - 1;
-          q.push(newPoint);
-          dis[newPoint.i*grid_columns + newPoint.j] = 0;
-          Unite(i*grid_columns + j, newPoint.i*grid_columns + newPoint.j);
-        }
-        if (j + 1 < grid_columns && grid[i][j+1] == '1' && dis[i*grid_columns + j+1] == -1) { // 右
-          Point newPoint;
-          newPoint.i = i;
-          newPoint.j = j + 1;
-          q.push(newPoint);
-          dis[newPoint.i*grid_columns + newPoint.j] = 0;
-          Unite(i*grid_columns + j, newPoint.i*grid_columns + newPoint.j);
+        for (int k = 0; k < 4; ++k) {
+          int x = point.i + directions[k].i;
+          int y = point.j + directions[k].j;
+          if (x >= 0 && x < grid_rows && y >= 0 && y < grid_columns
+              && grid[x][y] == '1' && dis[x*grid_columns + y] == -1) {
+            Point newPoint = { .i = x, .j = y };
+            q.push(newPoint);
+            dis[x*grid_columns + y] = 0;
+            Unite(point.i*grid_columns + point.j, newPoint.i*grid_columns + newPoint.j);
+          }
         }
       }
     }
@@ -99,43 +110,7 @@ public:
     return s.size();
   }
 private:
-  typedef struct Point {
-    int i, j;
-  } Point;
-private:
   std::queue<Point> q;
-private:
-  int dis[100000];
-  int parents[100000];
-  int ranks[100000];
-
-  void Init(int n) {
-    for (int i = 0; i < n; ++i) {
-      parents[i] = i;
-      ranks[i] = 0;
-    }
-  }
-
-  int Find(int x) {
-    return parents[x] != x ? parents[x] = Find(parents[x]) : x;
-  }
-
-  void Unite(int x, int y) {
-    x = Find(x);
-    y = Find(y);
-    if (x == y) return;
-
-    if (ranks[x] < ranks[y]) {
-      parents[x] = y;
-    } else {
-      parents[y] = x;
-      if (ranks[x] == ranks[y]) ++ranks[x];
-    }
-  }
-
-  bool Same(int x, int y) {
-    return Find(x) == Find(y);
-  }
 };
 
 int main()

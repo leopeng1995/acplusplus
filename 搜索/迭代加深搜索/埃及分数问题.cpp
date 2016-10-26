@@ -57,7 +57,7 @@ bool better(int d) {
   return false;
 }
 
-// µ±Ç°Éî¶ÈÎªd£¬·ÖÄ¸²»ÄÜÐ¡ÓÚfrom£¬·ÖÊýÖ®ºÍÇ¡ºÃÎªaa/bb
+// 当前深度为d，分母不能小于from，分数之和恰好为aa/bb
 bool dfs(int d, int from, LL aa, LL bb) {
   if (d == maxd) {
     if (bb % aa) return false;
@@ -72,13 +72,13 @@ bool dfs(int d, int from, LL aa, LL bb) {
   bool ok = false;
   from = max(from, get_first(aa, bb));
   for (int i = from; ; ++i) {
-    // ¼ôÖ¦£ºÈç¹ûÊ£ÏÂµÄmaxd+1-d¸ö·ÖÊýÈ«²¿¶¼ÊÇ1/i£¬¼ÓÆðÀ´ÈÔÈ»²»³¬¹ýaa/bb£¬ÔòÎÞ½â
+    // 剪枝：如果剩下的maxd+1-d个分数全部都是1/i，加起来仍然不超过aa/bb，则无解
     if (bb * (maxd+1-d) <= i * aa) break;
     v[d] = i;
-    // ¼ÆËãaa/bb - 1/i£¬Éè½á¹ûÎªa2/b2
+    // 计算aa/bb - 1/i，设结果为a2/b2
     LL b2 = bb*i;
     LL a2 = aa*i - bb;
-    LL g = gcd(a2, b2); // ÒÔ±ãÔ¼·Ö
+    LL g = gcd(a2, b2); // 以便约分
     if (g == 0) return false;
     if (dfs(d+1, i+1, a2/g, b2/g)) ok = true;
   }
