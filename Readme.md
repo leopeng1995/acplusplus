@@ -95,4 +95,4 @@
 * 模拟退火（未完成）
 
 #### 博弈论
-* 极大极小博弈树，Minimax Algorithm（未完成）
+* 极大极小博弈树，Minimax Algorithm（完成）
