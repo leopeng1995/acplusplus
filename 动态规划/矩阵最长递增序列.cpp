@@ -39,34 +39,32 @@ int dp[MAX_R][MAX_C];
 int R, C;
 
 int findLongestFromACell(int i, int j) {
-  if (i<0 || i>=R || j<0 || j>=C) return 0;
+  if (i < 0 || i >= R || j < 0 || j >= C) return 0;
   if (dp[i][j] != -1) return dp[i][j];
 
-  if (j<C-1 && (mat[i][j] +1 == mat[i][j+1]))
-    return dp[i][j] = 1 + findLongestFromACell(i, j+1);
+  if (j < C - 1 && (mat[i][j] + 1 == mat[i][j + 1]))
+    return dp[i][j] = 1 + findLongestFromACell(i, j + 1);
 
-  if (j>0 && (mat[i][j] +1 == mat[i][j-1]))
-    return dp[i][j] = 1 + findLongestFromACell(i, j-1);
+  if (j > 0 && (mat[i][j] + 1 == mat[i][j - 1]))
+    return dp[i][j] = 1 + findLongestFromACell(i, j - 1);
 
-  if (i>0 && (mat[i][j] +1 == mat[i-1][j]))
-    return dp[i][j] = 1 + findLongestFromACell(i-1, j);
+  if (i > 0 && (mat[i][j] + 1 == mat[i - 1][j]))
+    return dp[i][j] = 1 + findLongestFromACell(i - 1, j);
 
-  if (i<R-1 && (mat[i][j] +1 == mat[i+1][j]))
-    return dp[i][j] = 1 + findLongestFromACell(i+1, j);
+  if (i < R - 1 && (mat[i][j] + 1 == mat[i + 1][j]))
+    return dp[i][j] = 1 + findLongestFromACell(i + 1, j);
 
   return dp[i][j] = 1;
 }
 
 int findLongestOverAll() {
   int result = 1;
-
   for (int i = 0; i < R; i++) {
     for (int j = 0; j < C; j++) {
       if (dp[i][j] == -1) findLongestFromACell(i, j);
       result = max(result, dp[i][j]);
     }
   }
-
   return result;
 }
 

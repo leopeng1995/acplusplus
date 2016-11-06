@@ -30,22 +30,22 @@ int dp[MAX_R][MAX_C];
 int R, C;
 
 int findLongestFromACell(int i, int j) {
-  if (i<0 || i>=R || j<0 || j>=C) return 0;
+  if (i < 0 || i >= R || j < 0 || j >= C) return 0;
   if (dp[i][j] != -1) return dp[i][j];
 
   int val = -1;
 
-  if (j<C-1 && (mat[i][j] < mat[i][j+1]) && (findLongestFromACell(i, j+1) > val))
-    val = findLongestFromACell(i, j+1);
+  if (j < C - 1 && (mat[i][j] < mat[i][j + 1]) && (findLongestFromACell(i, j + 1) > val))
+    val = findLongestFromACell(i, j + 1);
 
-  if (j>0 && (mat[i][j] < mat[i][j-1]) && (findLongestFromACell(i, j-1) > val))
-    val = findLongestFromACell(i, j-1);
+  if (j>0 && (mat[i][j] < mat[i][j - 1]) && (findLongestFromACell(i, j - 1) > val))
+    val = findLongestFromACell(i, j - 1);
 
-  if (i>0 && (mat[i][j] < mat[i-1][j]) && (findLongestFromACell(i-1, j) > val))
-    val = findLongestFromACell(i-1, j);
+  if (i > 0 && (mat[i][j] < mat[i - 1][j]) && (findLongestFromACell(i - 1, j) > val))
+    val = findLongestFromACell(i - 1, j);
 
-  if (i<R-1 && (mat[i][j] < mat[i+1][j]) && (findLongestFromACell(i+1, j) > val))
-    val = findLongestFromACell(i+1, j);
+  if (i < R - 1 && (mat[i][j] < mat[i + 1][j]) && (findLongestFromACell(i + 1, j) > val))
+    val = findLongestFromACell(i + 1, j);
 
   if (val == -1) return dp[i][j] = 1;
   dp[i][j] = val + 1;

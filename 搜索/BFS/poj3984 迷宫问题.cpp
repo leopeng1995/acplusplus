@@ -1,6 +1,7 @@
 // O(N*M)
 // 如果队列搜索到空，则会生成到每一个点的最近距离
 // 可以全部初始化为INF
+// 空间效率可以改进
 //#include <bits/stdc++.h>
 #include <iostream>
 #include <iomanip>
@@ -36,10 +37,11 @@ const double PI = acos(-1.0);
 
 typedef long long ll;
 typedef long long LL;
-typedef long long int64;	// %lld
+typedef long long int64;  // %lld
 
 const int MAX_N = 5;
 int maze[MAX_N][MAX_N];
+int visited[MAX_N][MAX_N];
 
 struct Point {
   int x, y;
@@ -51,10 +53,10 @@ Point directions[4] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 struct Node {
   int x, y;
   int dis;
-  Point path[MAX_N * MAX_N];
-  Node(int xx, int yy, int d) : x(xx), y(yy), dis(d) {}
+  Node *prev;
+  Point path[MAX_N * MAX_N];  // 可以改为指向父节点的指针
+  Node(int xx, int yy, int d) : x(xx), y(yy), dis(d), prev(NULL) {}
 };
-
 
 void bfs() {
   queue<Node> q;
@@ -64,6 +66,8 @@ void bfs() {
   while (!q.empty()) {
     Node p = q.front();
     q.pop();
+    visited[p.x][p.y] = 1;
+
     if (p.x == MAX_N - 1 && p.y == MAX_N - 1) {
       //printf("%d\n", p.dis);
       for (int i = 0; i < p.dis; i++)
@@ -75,11 +79,12 @@ void bfs() {
     for (int i = 0; i < 4; i++) {
       int nx = p.x + directions[i].x;
       int ny = p.y + directions[i].y;
-      if (0 <= nx && nx < MAX_N && 0 <= ny && ny < MAX_N && maze[nx][ny] == 0) {
+      if (0 <= nx && nx < MAX_N && 0 <= ny && ny < MAX_N && maze[nx][ny] == 0 && visited[nx][ny] == 0) {
         Node r(nx, ny, p.dis + 1);
         for (int j = 0; j < p.dis; j++) r.path[j] = p.path[j];
         Point prev(p.x, p.y);
         r.path[r.dis - 1] = prev;
+        r.prev = &p;
         q.push(r);
       }
     }
@@ -93,6 +98,7 @@ int main()
     for (int j = 0; j < MAX_N; j++)
       sc(maze[i][j]);
   //DEBUG_PRINT_MATRIX(maze, MAX_N);
+  mset0(visited);
   bfs();
   return 0;
 }
