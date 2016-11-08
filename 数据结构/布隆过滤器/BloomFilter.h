@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 
 struct BloomFilter {
 	BloomFilter(uint64_t size, uint8_t numHashes);

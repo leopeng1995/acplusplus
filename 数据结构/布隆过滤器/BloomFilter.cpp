@@ -1,4 +1,4 @@
-#include "BloomFilter.h"
+﻿#include "BloomFilter.h"
 #include "MurmurHash3.h"
 
 BloomFilter::BloomFilter(uint64_t size, uint8_t numHashes)

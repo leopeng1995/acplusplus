@@ -127,7 +127,7 @@ int main()
   while (T--) {
     sc(n);
     ac.init();
-    for (int i = 0; i < n;i++) {
+    for (int i = 0; i < n; i++) {
       scanf("%s", buf);
       ac.insert(buf);
     }
