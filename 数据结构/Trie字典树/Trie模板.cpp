@@ -24,7 +24,7 @@ struct Trie {
     }
     val[u] = v;
   }
-  void query(const char *s, vector<int>& ans) {
+  int query(const char *s) {
     int u = 0;
     int len = strlen(s);
     for (int i = 0; i < len; i++){
@@ -32,7 +32,7 @@ struct Trie {
       int c = idx(s[i]);
       if (!ch[u][c]) break;
       u = ch[u][c];
-      if (val[u]) ans.push_back(val[u]);
     }
+    return val[u];
   }
 };
