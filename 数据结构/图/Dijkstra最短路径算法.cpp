@@ -3,7 +3,7 @@
 
 int cost[MAX_V][MAX_V]; // cost[u][v]表示边e={u,v}的权值（不存在这条边时设为INF）
 int d[MAX_V];           // 顶点s出发的最短距离
-bool used[MAX_V];       // 已经使用过的图
+bool used[MAX_V];       // 已经使用过的图顶点
 int V;
 
 // 求从起点s出发到各个顶点的最短距离
@@ -16,7 +16,7 @@ void dijkstra(int s) {
     int v = -1;
     // 从尚未使用过的顶点中选择一个距离最小的顶点
     for (int u = 0; u < V; ++u) {
-      if (!used[u] && (v == -1|| d[u] < d[v])) v = u;
+      if (!used[u] && (v == -1 || d[u] < d[v])) v = u;
     }
 
     if (v == -1) break;
