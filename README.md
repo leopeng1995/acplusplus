@@ -26,7 +26,7 @@
     - [ ] 压缩Trie
     - [ ] 后缀树
     - [ ] 后缀数组
-    - [ ] Manacher回文子串算法
+    - [x] Manacher回文子串算法
     - [ ] 字符串哈希
 - **数据结构 Data Structures**
     - [x] 布隆过滤器
