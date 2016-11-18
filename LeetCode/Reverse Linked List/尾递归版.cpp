@@ -16,18 +16,21 @@ public:
     return head;
   }
 private:
-  void reverseList(ListNode** head_ref) {
-    if (NULL == *head_ref) return;
+  void reverseList(ListNode** head) {
+    if (NULL == head) return;
+    reverseList(*head, NULL, head);
+  }
+private:
+  void reverseList(ListNode* curr, ListNode* prev, ListNode** head) {
+    if (NULL == curr->next) {
+      *head = curr;
+      curr->next = prev;
+      return;
+    }
 
-    ListNode* first = *head_ref;
-    ListNode* rest = first->next;
-
-    if (NULL == rest) return;
-    reverseList(&rest);
-    first->next->next = first;
-
-    first->next = NULL;
-    *head_ref = rest;
+    ListNode* next = curr->next;
+    curr->next = prev;
+    reverseList(next, curr, head);
   }
 };
 

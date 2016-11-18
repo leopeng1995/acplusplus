@@ -17,17 +17,15 @@ public:
   }
 private:
   void reverseList(ListNode** head_ref) {
-    if (NULL == *head_ref) return;
-
-    ListNode* first = *head_ref;
-    ListNode* rest = first->next;
-
-    if (NULL == rest) return;
-    reverseList(&rest);
-    first->next->next = first;
-
-    first->next = NULL;
-    *head_ref = rest;
+    ListNode* prev = NULL;
+    ListNode* current = *head_ref;
+    while (current != NULL) {
+      ListNode* next = current->next;
+      current->next = prev;
+      prev = current;
+      current = next;
+    }
+    *head_ref = prev;
   }
 };
 
