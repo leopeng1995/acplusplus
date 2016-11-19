@@ -39,6 +39,7 @@ Space Complexity: O(1)
 <div align="center">
   <img src="./Recursive Reverse Linked List.gif" width="420" height="400" alt="Recursive Reverse Linked List" align="center">
 </div>
+<br/>
 
 ```
 class Solution {
