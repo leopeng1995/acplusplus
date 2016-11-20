@@ -43,10 +43,29 @@ const double PI = acos(-1.0);
 
 typedef long long ll;
 typedef long long LL;
-typedef long long int64;	// %lld
+typedef long long int64;  // %lld
+
+const int MAX_N = 100;  // 年龄范围1~100
+int n, x, c[MAX_N + 1];
 
 int main()
 {
   freopen("in.txt", "r", stdin);
+  while (SCi(n) == 1 && n) {
+    mset0(c);
+    for (int i = 0; i < n; i++) {
+      SCi(x);
+      c[x]++;
+    }
+    bool first = true;
+    for (int i = 1; i <= MAX_N; i++) {
+      for (int j = 0; j < c[i]; j++) {
+        if (!first) printf(" ");
+        first = false;
+        printf("%d", i);
+      }
+    }
+    printf("\n");
+  }
   return 0;
 }

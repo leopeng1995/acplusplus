@@ -45,8 +45,49 @@ typedef long long ll;
 typedef long long LL;
 typedef long long int64;	// %lld
 
+inline int readint() {
+  char c = getchar();
+  while (!isdigit(c)) c = getchar();
+
+  int x = 0;
+  while (isdigit(c)) {
+    x = x * 10 + c - '0';
+    c = getchar();
+  }
+  return x;
+}
+
+int buf[10];
+inline void writeint(int i) {
+  int p = 0;
+  if (i == 0) p++;  // 特殊情况：i等于0的时候需要输出0，而不是什么也不输出
+  else while (i) {
+    buf[p++] = i % 10;
+    i /= 10;
+  }
+  for (int j = p - 1; j >= 0; j--)
+    putchar('0' + buf[j]);  // 逆序输出
+}
+
+const int MAX_N = 100;  // 年龄范围1~100
+int n, x, c[MAX_N + 1];
+
 int main()
 {
   freopen("in.txt", "r", stdin);
+  while ((n = readint())) {
+    mset0(c);
+    for (int i = 0; i < n; i++)
+      c[readint()]++;
+    bool first = true;
+    for (int i = 1; i <= MAX_N; i++) {
+      for (int j = 0; j < c[i]; j++) {
+        if (!first) putchar(' ');
+        first = false;
+        writeint(i);
+      }
+    }
+    putchar('\n');
+  }
   return 0;
 }

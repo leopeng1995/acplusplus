@@ -45,8 +45,24 @@ typedef long long ll;
 typedef long long LL;
 typedef long long int64;	// %lld
 
+int T, n;
+int x, ans, MaxAi;
+const int MAX_N = 100000 + 5;
+int A[MAX_N];
+
 int main()
 {
   freopen("in.txt", "r", stdin);
+  SCi(T);
+  while (T--) {
+    SCi(n);
+    for (int i = 0; i < n; i++) {
+      SCi(x);
+      if (i == 0) { MaxAi = x; }
+      else if (i == 1) { ans = MaxAi - x; MaxAi = max(MaxAi, x); }
+      else { ans = max(ans, MaxAi - x); MaxAi = max(MaxAi, x); }
+    }
+    printf("%d\n", ans);
+  }
   return 0;
 }

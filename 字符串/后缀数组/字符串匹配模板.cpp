@@ -37,6 +37,27 @@ void construct_sa(string S, int *sa) {
 	}
 }
 
+// 传入字符串S和对应的后缀数组sa，计算高度数组lcp
+void construct_lcp(string& S, int *sa, int *lcp) {
+  int n = S.length();
+  for (int i = 0; i <= n; i++) Rank[sa[i]] = i;
+
+  int h = 0;
+  lcp[0] = 0;
+  for (int i = 0; i < n; i++) {
+    // 计算字符串中从位置i开始的后缀及其在后缀数组中的前一个后缀的LCP
+    int j = sa[Rank[i] - 1];
+
+    // 将h先减去首字母的1长度，在保持前缀相同前提下不断增加
+    if (h > 0) h--;
+    for (; j + h < n && i + h < n; h++) {
+      if (S[j + h] != S[i + h]) break;
+    }
+
+    lcp[Rank[i] - 1] = h;
+  }
+}
+
 bool contain(string S, int *sa, string T) {
 	int a = 0, b = S.length();
 	while (b - a > 1) {
