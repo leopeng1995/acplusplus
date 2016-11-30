@@ -1,3 +1,5 @@
+// map: 0.029s
+// unordered_map: 0.019s
 //#include <bits/stdc++.h>
 #include <iostream>
 #include <iomanip>
@@ -14,6 +16,7 @@
 #include <algorithm>
 #include <climits>
 #include <cfloat>
+#include <unordered_map>
 using namespace std;
 
 #define SCi(n) scanf("%d", &n)
@@ -49,6 +52,8 @@ typedef pair<int,int> ii;
 #define DEBUG_PRINT_MATRIX(matrix, n) for (int i = 0; i < n; ++i) { for (int j = 0; j < n; ++j) printf("%d ", matrix[i][j]); printf("\n"); }
 #define DEBUG_PRINT_MATRIX2(matrix, n, m) for (int i = 0; i < n; ++i) { for (int j = 0; j < m; ++j) printf("%d ", matrix[i][j]); printf("\n"); }
 
+inline int bitcount(int x) { return x == 0 ? 0 : bitcount(x / 2) + (x & 1); }
+
 const double eps = 1e-6;
 const double PI = acos(-1.0);
 
@@ -56,8 +61,39 @@ typedef long long ll;
 typedef long long LL;
 typedef long long int64;	// %lld
 
+const int MAX_N = 24;
+const int MAX_LENGTH = 1000;
+int n;
+int A[MAX_N];
+//map<int, int> table;
+unordered_map<int, int> table;
+char s[MAX_LENGTH];
+
 int main()
 {
   freopen("in.txt", "r", stdin);
+  while (SCi(n) != EOF && n) {
+    for (int i = 0; i < n; i++) {
+      SCs(s);
+      A[i] = 0;
+      for (int j = 0; s[j] != '\0'; j++) A[i] ^= (1 << (s[j] - 'A'));
+    }
+    table.clear();
+    int n1 = n / 2, n2 = n - n1;
+    for (int i = 0; i < (1 << n1); i++) {
+      int x = 0;
+      for (int j = 0; j < n1; j++) if (i & (1 << j)) x ^= A[j];
+      if (!table.count(x) || bitcount(table[x]) < bitcount(i)) table[x] = i;
+    }
+    int ans = 0;
+    for (int i = 0; i < (1 << n2); i++) {
+      int x = 0;
+      for (int j = 0; j < n2; j++) if (i & (1 << j)) x ^= A[n1 + j];
+      if (table.count(x) && bitcount(ans) < bitcount(table[x]) + bitcount(i)) ans = (i << n1) ^ table[x];
+    }
+    printf("%d\n", bitcount(ans));
+    for (int i = 0; i < n; i++) if (ans & (1 << i)) printf("%d ", i + 1);
+    printf("\n");
+  }
   return 0;
 }
